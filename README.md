@@ -4,21 +4,21 @@
 
 When I tried to create a bootable Windows 11 bootable USB disk, [WoeUSB-NG](https://github.com/WoeUSB/WoeUSB-ng) came to my plate and it seems pretty cool. However, when I started to use it, its progress bar really confused me and that write-delay is not suitable for the cases like writing data into a disk.
 
-Then I read the source code of `core.py`. I figured out there are several glitches that caused above confusion and potential data writing delay issue. So I patched the file to solve the issues I encountered.
+Then I read the source code of `core.py`. I figured out there are several glitches that caused the above confusion and potential data writing delay issue. So I patched the file to solve the issues I encountered.
 
-This patch is to address / fix following issues:
+This patch is to address / fix the following issues:
 
-1. Removed pesudo progress bar feature. WoeUSB-NG uses timer progress bar which actually does not show actual progress which is just a decoration.
-2. Switched buffered write to sync-IO write. WoeUSB-NG uses buffered write to write Windows files to USB disk. This would cause potential disk loss issue and would take longer time when OS initiates write-back.
-3. Added additional writing progress information to show the actual data writing process. This is useful for users to understand how much data is written already in the USB disk rather than pesudo progress data.
+1. Removed pseudo progress bar feature. WoeUSB-NG uses a timer progress bar which actually does not show actual progress which is just a decoration.
+2. Switched buffered write to sync-IO write. WoeUSB-NG uses buffered write to write Windows files to USB disk. This would cause a potential disk loss issue and would take a longer time when OS initiates write-back.
+3. Added additional writing progress information to show the actual data writing process. This is useful for users to understand how much data is written already in the USB disk rather than pseudo progress data.
 
 ## How to use it?
 
-Simple. Just copy this `core.py` and replace the original one in the WoeUSB-NG source code directory then using `pip3` to install the package.
+Simple. Just copy this `core.py` and replace the original one in the WoeUSB-NG source code directory then use `pip3` to install the package.
 
 ## Side Effect
 
-Because this patch uses sync-IO to write data, users will notice that the data copying part is taking very long time, which is normal. IMHO, it's better show actual data copy progress than pesudo progress and confused extreame long time consuming on data write-back process.
+Because this patch uses sync-IO to write data, users will notice that the data copying part is taking a very long time, which is normal. IMHO, it's better to show actual data copy progress than pseudo progress and confused extreme long time consuming on data write-back process.
 
 ## Command Output Example
 
